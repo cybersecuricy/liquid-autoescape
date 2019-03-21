@@ -8,7 +8,7 @@ referenced within it to be escaped for display in an HTML context.
 ## Requirements
 
 * Ruby >= 2.2
-* Liquid 2 or 3
+* Liquid >= 2.3
 
 ## Basic Usage
 
