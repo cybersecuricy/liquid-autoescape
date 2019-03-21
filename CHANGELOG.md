@@ -1,5 +1,11 @@
 # Liquid Autoescape Changelog
 
+## 2.0.0 / 2019-03-21
+
+* Support Liquid 4
+* Support passing the enabled state to the `{% autoescape %}` tag
+* Require Ruby >= 2.2
+
 ## 1.0.0 / 2017-12-21
 
 * Require Ruby >= 2.1
