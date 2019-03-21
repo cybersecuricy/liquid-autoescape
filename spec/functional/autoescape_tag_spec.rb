@@ -115,6 +115,27 @@ describe "{% autoescape %}" do
     expect { Liquid::Template.parse(invalid) }.to raise_error(Liquid::SyntaxError)
   end
 
+  it "does not escape captured variables" do
+    verify_template_output(
+      "{% autoescape %}{% capture variable %}&{% endcapture %}{% endautoescape %}{{ variable }}",
+      "&"
+    )
+  end
+
+  it "escapes assigned variables" do
+    verify_template_output(
+      '{% autoescape %}{% assign variable = "&" %}{% endautoescape %}{{ variable }}',
+      "&amp;"
+    )
+  end
+
+  it "can prevent escaping of assigned variables" do
+    verify_template_output(
+      '{% autoescape %}{% autoescape false %}{% assign variable = "&" %}{% endautoescape %}{{ variable }}{% endautoescape %}{{ variable }}',
+      "&amp;&"
+    )
+  end
+
   describe "configuration options" do
 
     after(:each) { Liquid::Autoescape.reconfigure }
