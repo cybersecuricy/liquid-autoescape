@@ -11,5 +11,6 @@ gemfile:
   - gemfiles/liquid_2.5.gemfile
   - gemfiles/liquid_2.6.gemfile
   - gemfiles/liquid_3.gemfile
+  - gemfiles/liquid_4.gemfile
 
 script: bundle exec rake validate
