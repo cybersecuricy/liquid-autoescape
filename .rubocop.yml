@@ -52,6 +52,9 @@ Style/IfUnlessModifier:
 Style/Lambda:
   Enabled: false
 
+Style/PerlBackrefs:
+  Enabled: false
+
 Style/SignalException:
   EnforcedStyle: only_raise
 
