@@ -1,5 +1,6 @@
 AllCops:
   Exclude:
+    - gemfiles/*
     - vendor/**/*
   TargetRubyVersion: 2.2
 
