@@ -3,6 +3,8 @@
 *~
 .bundle/
 .DS_Store
+.ruby-version
+.rvmrc
 /.yardoc/
 /doc/
 /Gemfile.lock
