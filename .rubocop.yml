@@ -1,3 +1,8 @@
+AllCops:
+  Exclude:
+    - vendor/**/*
+  TargetRubyVersion: 2.2
+
 Layout/AccessModifierIndentation:
   EnforcedStyle: outdent
 

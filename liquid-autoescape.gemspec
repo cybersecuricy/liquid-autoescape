@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.homepage     = "https://github.com/Within3/liquid-autoescape"
   s.license      = "MIT"
 
-  s.required_ruby_version = ">= 2.1.0"
+  s.required_ruby_version = ">= 2.2"
 
   s.files        = %w[LICENSE README.md]
   s.files       += Dir.glob("lib/**/*")
