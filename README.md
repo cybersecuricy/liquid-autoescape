@@ -163,3 +163,16 @@ end
 Escaped: {{ variable }}
 Not Escaped: {{ variable | skip_escape }}
 ```
+
+Additionally, autoescaping can be selectively disabled within a block when
+running in global mode:
+
+```liquid
+{% assign value = "&" %}
+
+<!-- Renders "&amp;" -->
+{{ value }}
+
+<!-- Renders "&&" -->
+{% autoescape false %}{{ value }}{{ value }}{% endautoescape %}
+```

@@ -11,7 +11,7 @@ module Liquid
       # Any variables that should be exempt from escaping should have the
       # +skip_escape+ filter applied to them.
       #
-      # @example
+      # @example Default usage
       #   {% assign untrusted = "<script>window.reload();</script>" %}
       #   {% assign trusted = "<strong>Text</strong>" %}
       #
@@ -19,19 +19,33 @@ module Liquid
       #     {{ untrusted }}
       #     {{ trusted | skip_escape }}
       #   {% endautoescape %}
+      #
+      # @example Controlling whether escaping is applied
+      #   {% assign value = "&" %}
+      #
+      #   <!-- Renders "&amp;" -->
+      #   {% autoescape true %}{{ value }}{% endautoescape %}
+      #
+      #   <!-- Renders "&" -->
+      #   {% autoescape false %}{{ value }}{% endautoescape %}
       class Autoescape < Block
 
-        def initialize(tag_name, markup, tokens)
-          unless markup.empty?
-            raise SyntaxError, "Syntax Error in 'autoescape' - Valid syntax: {% autoescape %}"
-          end
+        SYNTAX = /^(#{QuotedFragment})?\s+?$/.freeze
+        private_constant :SYNTAX
 
+        def initialize(tag_name, markup, tokens)
           super
+
+          if markup =~ SYNTAX
+            @autoescape_flag = $1
+          elsif !markup.empty?
+            raise SyntaxError, "Syntax Error in 'autoescape' - Valid syntax: {% autoescape [true|false] %}"
+          end
         end
 
         def render(context)
           context.stack do
-            context[ENABLED_FLAG] = true
+            context[ENABLED_FLAG] = @autoescape_flag ? context[@autoescape_flag] : true
             super
           end
         end

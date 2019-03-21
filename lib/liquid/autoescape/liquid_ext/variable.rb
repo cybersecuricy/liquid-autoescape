@@ -20,12 +20,19 @@ module Liquid
     # @param [Liquid::Context] context The variable's rendering context
     # @return [String] The potentially escaped contents of the variable
     def render(context)
-      if !Autoescape.configuration.global? && !context[Autoescape::ENABLED_FLAG]
+      is_global = Autoescape.configuration.global?
+      is_local = context[Autoescape::ENABLED_FLAG]
+
+      if !is_global && !is_local
         return non_escaping_render(context)
       end
 
-      variable = Autoescape::TemplateVariable.from_liquid_variable(self)
-      is_exempt = Autoescape.configuration.exemptions.apply?(variable)
+      if is_global && is_local == false
+        is_exempt = true
+      else
+        variable = Autoescape::TemplateVariable.from_liquid_variable(self)
+        is_exempt = Autoescape.configuration.exemptions.apply?(variable)
+      end
 
       @filters << [:escape, []] unless is_exempt
       output = non_escaping_render(context)

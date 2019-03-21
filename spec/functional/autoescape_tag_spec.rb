@@ -77,8 +77,33 @@ describe "{% autoescape %}" do
     )
   end
 
-  it "raises an error when called with arguments" do
-    invalid = "{% autoescape on %}{% endautoescape %}"
+  it "supports explicit enabling" do
+    verify_template_output(
+      "{% autoescape true %}{{ variable }}{% endautoescape %}",
+      "&amp;",
+      "variable" => "&"
+    )
+  end
+
+  it "supports explicit disabling" do
+    verify_template_output(
+      "{% autoescape false %}{{ variable }}{% endautoescape %}",
+      "&",
+      "variable" => "&"
+    )
+  end
+
+  it "supports reading the autoescaping state from a variable" do
+    verify_template_output(
+      "{% autoescape escape %}{{ variable }}{% endautoescape %}",
+      "&amp;",
+      "escape" => true,
+      "variable" => "&"
+    )
+  end
+
+  it "raises an error when called with multiple arguments" do
+    invalid = "{% autoescape one two %}{% endautoescape %}"
     expect { Liquid::Template.parse(invalid) }.to raise_error(Liquid::SyntaxError)
   end
 
@@ -114,6 +139,14 @@ describe "{% autoescape %}" do
         verify_template_output(
           "{{ variable | skip_escape }}{% autoescape %}{{ variable | skip_escape }}{% endautoescape %}",
           "&&",
+          "variable" => "&"
+        )
+      end
+
+      it "supports opting out of autoescaping within a block" do
+        verify_template_output(
+          "{{ variable }}{% autoescape false %}{{ variable }}{{ variable }}{% endautoescape %}",
+          "&amp;&&",
           "variable" => "&"
         )
       end
