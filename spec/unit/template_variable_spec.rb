@@ -27,7 +27,16 @@ module Liquid
 
       describe ".from_liquid_variable" do
 
-        let(:liquid_variable) { Liquid::Variable.new(variable_name) }
+        let(:liquid_variable) do
+          args = [variable_name]
+
+          if defined?(Liquid::ParseContext)
+            args << Liquid::ParseContext.new
+          end
+
+          Liquid::Variable.new(*args)
+        end
+
         let(:variable_name) { nil }
 
         let(:wrapper) { TemplateVariable.from_liquid_variable(liquid_variable) }

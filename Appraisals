@@ -9,3 +9,7 @@ end
 appraise "liquid-3" do
   gem "liquid", "~> 3.0"
 end
+
+appraise "liquid-4" do
+  gem "liquid", "~> 4.0"
+end
