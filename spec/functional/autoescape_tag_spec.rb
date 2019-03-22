@@ -93,7 +93,7 @@ describe "{% autoescape %}" do
     )
   end
 
-  it "supports nested autoescaping contexts" do
+  it "supports nested auto-escaping contexts" do
     verify_template_output(
       "{% autoescape true %}{{ variable }}{% autoescape false %}{{ variable }}{% autoescape true %}{{ variable }}{% endautoescape %}{% endautoescape %}{% endautoescape %}",
       "&amp;&&amp;",
@@ -101,7 +101,7 @@ describe "{% autoescape %}" do
     )
   end
 
-  it "supports reading the autoescaping state from a variable" do
+  it "supports reading the auto-escaping state from a variable" do
     verify_template_output(
       "{% autoescape escape %}{{ variable }}{% endautoescape %}",
       "&amp;",
@@ -165,7 +165,7 @@ describe "{% autoescape %}" do
         )
       end
 
-      it "supports opting out of autoescaping within a block" do
+      it "supports opting out of auto-escaping within a block" do
         verify_template_output(
           "{{ variable }}{% autoescape false %}{{ variable }}{{ variable }}{% endautoescape %}",
           "&amp;&&",

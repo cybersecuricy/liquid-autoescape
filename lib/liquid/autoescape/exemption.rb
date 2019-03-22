@@ -7,7 +7,7 @@ module Liquid
     #
     # Exemptions are created from functions that accept a template variable and
     # and return a boolean value indicating whether or not the variable is
-    # exempt from autoescaping.
+    # exempt from auto-escaping.
     #
     # @example An exemption based on a variable's name
     #   exemption = Exemption.new do |variable|
@@ -20,7 +20,7 @@ module Liquid
     #   end
     class Exemption
 
-      # Create a new autoescaping exemption
+      # Create a new auto-escaping exemption
       #
       # This requires a filter function to be provided that will be passed a
       # +TemplateVariable+ instance that it can use to return a boolean

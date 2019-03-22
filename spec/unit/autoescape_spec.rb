@@ -8,7 +8,7 @@ module Liquid
 
     describe ".configure" do
 
-      it "allows autoescape settings to be customized" do
+      it "allows auto-escape settings to be customized" do
         Autoescape.configure do |config|
           expect(config).to be_an_instance_of(Autoescape::Configuration)
         end

@@ -45,7 +45,7 @@ escaped, use the `skip_escape` filter.
 ## Advanced Usage
 
 Autoescaping can be customized to work better with your environment via a
-Ruby-level configuration object.  To configure autoescaping, use the `config`
+Ruby-level configuration object.  To configure auto-escaping, use the `config`
 object exposed by `Liquid::Autoescape.configure` in any Ruby file loaded before
 templates are rendered.
 
@@ -57,7 +57,7 @@ Liquid::Autoescape.configure do |config|
 end
 ```
 
-The autoescape options that can be configured are detailed below.
+The auto-escape options that can be configured are detailed below.
 
 ### Trusted Filters
 
@@ -130,7 +130,7 @@ As mentioned above, each exemption function is passed an object that describes a
 Liquid variable as used in a template.  This object exposes the variable's name,
 as well as a list of any filters that it uses. These values can be used by each
 exemption function to determine whether a variable should be exempt from
-autoescaping, as shown by the code below:
+auto-escaping, as shown by the code below:
 
 ```ruby
 Liquid::Autoescape.configure do |config|
@@ -166,7 +166,7 @@ Escaped: {{ variable }}
 Not Escaped: {{ variable | skip_escape }}
 ```
 
-Additionally, autoescaping can be selectively disabled within a block when
+Additionally, auto-escaping can be selectively disabled within a block when
 running in global mode:
 
 ```liquid

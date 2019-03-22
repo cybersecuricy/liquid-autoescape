@@ -4,7 +4,7 @@ require "liquid/autoescape/exemption_list"
 module Liquid
   module Autoescape
 
-    # A configuration file for setting autoescape options
+    # A configuration file for setting auto-escape options
     class Configuration
 
       # @return [Liquid::Autoescape::ExemptionList] The list of custom exemptions

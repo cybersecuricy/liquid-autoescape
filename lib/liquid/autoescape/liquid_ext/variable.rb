@@ -10,11 +10,11 @@ module Liquid
 
     # Possibly render the variable with HTML escaping applied
     #
-    # If the autoescaping context variable has been set by the +autoescape+ tag
-    # or Liquid autoescaping is globally enabled, this will run the variable
-    # through the global exemption list to determine if it is exempt from
-    # autoescaping.  If it is not, its contents will be rendered as a string
-    # with all unsafe HTML characters escaped.  In all other cases, the
+    # If the auto-escaping context variable has been set by the {% autoescape %}
+    # tag or Liquid auto-escaping is globally enabled, this will run the
+    # variable through the global exemption list to determine if it is exempt
+    # from auto-escaping.  If it is not, its contents will be rendered as a
+    # string with all unsafe HTML characters escaped.  In all other cases, the
     # original, unescaped value of the variable will be rendered.
     #
     # @param [Liquid::Context] context The variable's rendering context
