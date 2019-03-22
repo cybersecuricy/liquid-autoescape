@@ -3,7 +3,9 @@
 [![Build Status](https://travis-ci.org/Within3/liquid-autoescape.svg)](https://travis-ci.org/Within3/liquid-autoescape)
 
 This adds an `{% autoescape %}` block tag to Liquid that causes all variables
-referenced within it to be escaped for display in an HTML context.
+referenced within it to be escaped for display in an HTML context.  It also adds
+the ability to enable global auto-escaping of all variables by default, and
+provides a set of tools for not escaping variables that are known to be safe.
 
 ## Requirements
 
