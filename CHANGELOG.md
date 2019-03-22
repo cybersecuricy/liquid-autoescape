@@ -1,8 +1,12 @@
 # Liquid Autoescape Changelog
 
+## 4.0.0 / 2019-03-22
+
+* Formally require Liquid >= 2.3
+
 ## 3.0.0 / 2019-03-22
 
-* Require Liquid >= 2.3
+* Informally require Liquid >= 2.3
 
 ## 2.0.0 / 2019-03-21
 
