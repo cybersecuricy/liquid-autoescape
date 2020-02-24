@@ -1,29 +1,29 @@
-require "liquid/autoescape"
+require "solid/autoescape"
 
-describe "{% autoescape %}" do
+describe "{{% autoescape %}}" do
 
   def verify_template_output(template, expected, context={})
-    rendered = Liquid::Template.parse(template).render!(context)
+    rendered = Solid::Template.parse(template).render!(context)
     expect(rendered).to eq(expected)
   end
 
   it "handles empty content" do
     verify_template_output(
-      "{% autoescape %}{% endautoescape %}",
+      "{{% autoescape %}}{{% endautoescape %}}",
       ""
     )
   end
 
   it "handles non-variable content" do
     verify_template_output(
-      "{% autoescape %}Static{% endautoescape %}",
+      "{{% autoescape %}}Static{{% endautoescape %}}",
       "Static"
     )
   end
 
   it "escapes all dangerous HTML characters" do
     verify_template_output(
-      "{% autoescape %}{{ variable }}{% endautoescape %}",
+      "{{% autoescape %}}{{{ variable }}}{{% endautoescape %}}",
       "&lt;tag&gt; &amp; &quot;quote&quot;",
       "variable" => '<tag> & "quote"'
     )
@@ -31,7 +31,7 @@ describe "{% autoescape %}" do
 
   it "applies HTML escaping to all variables inside the block tag" do
     verify_template_output(
-      "{% autoescape %}{{ one }} {{ two }} {{ three }}{% endautoescape %}",
+      "{{% autoescape %}}{{{ one }}} {{{ two }}} {{{ three }}}{{% endautoescape %}}",
       "&lt;tag&gt; &amp; &quot;quote&quot;",
       "one" => "<tag>", "two" => "&", "three" => '"quote"'
     )
@@ -39,7 +39,7 @@ describe "{% autoescape %}" do
 
   it "applies HTML escaping to a filtered variable" do
     verify_template_output(
-      "{% autoescape %}{{ filtered | downcase | capitalize }}{% endautoescape %}",
+      "{{% autoescape %}}{{{ filtered | downcase | capitalize }}}{{% endautoescape %}}",
       "A &lt;strong&gt; tag",
       "filtered" => "A <STRONG> Tag"
     )
@@ -47,7 +47,7 @@ describe "{% autoescape %}" do
 
   it "does not double-escape variables" do
     verify_template_output(
-      "{% autoescape %}{{ escaped | escape }}{% endautoescape %}",
+      "{{% autoescape %}}{{{ escaped | escape }}}{{% endautoescape %}}",
       "HTML &amp; CSS",
       "escaped" => "HTML & CSS"
     )
@@ -55,7 +55,7 @@ describe "{% autoescape %}" do
 
   it "does not escape variables outside the block tag" do
     verify_template_output(
-      "{{ variable }} {% autoescape %}{{ variable }}{% endautoescape %} {{ variable }}",
+      "{{{ variable }}} {{% autoescape %}}{{{ variable }}}{{% endautoescape %}} {{{ variable }}}",
       "& &amp; &",
       "variable" => "&"
     )
@@ -63,7 +63,7 @@ describe "{% autoescape %}" do
 
   it "can be called multiple times" do
     verify_template_output(
-      "{% autoescape %}{{ var }}{% endautoescape %} {{ var }} {% autoescape %}{{ var }}{% endautoescape %}",
+      "{{% autoescape %}}{{{ var }}}{{% endautoescape %}} {{{ var }}} {{% autoescape %}}{{{ var }}}{{% endautoescape %}}",
       "&amp; & &amp;",
       "var" => "&"
     )
@@ -71,7 +71,7 @@ describe "{% autoescape %}" do
 
   it "does not escape variables with the skip_escape filter applied" do
     verify_template_output(
-      "{% autoescape %}{{ variable | skip_escape }}{% endautoescape %}",
+      "{{% autoescape %}}{{{ variable | skip_escape }}}{{% endautoescape %}}",
       "<strong>&amp;</strong>",
       "variable" => "<strong>&amp;</strong>"
     )
@@ -79,7 +79,7 @@ describe "{% autoescape %}" do
 
   it "supports explicit enabling" do
     verify_template_output(
-      "{% autoescape true %}{{ variable }}{% endautoescape %}",
+      "{{% autoescape true %}}{{{ variable }}}{{% endautoescape %}}",
       "&amp;",
       "variable" => "&"
     )
@@ -87,7 +87,7 @@ describe "{% autoescape %}" do
 
   it "supports explicit disabling" do
     verify_template_output(
-      "{% autoescape false %}{{ variable }}{% endautoescape %}",
+      "{{% autoescape false %}}{{{ variable }}}{{% endautoescape %}}",
       "&",
       "variable" => "&"
     )
@@ -95,7 +95,7 @@ describe "{% autoescape %}" do
 
   it "supports nested auto-escaping contexts" do
     verify_template_output(
-      "{% autoescape true %}{{ variable }}{% autoescape false %}{{ variable }}{% autoescape true %}{{ variable }}{% endautoescape %}{% endautoescape %}{% endautoescape %}",
+      "{{% autoescape true %}}{{{ variable }}}{{% autoescape false %}}{{{ variable }}}{{% autoescape true %}}{{{ variable }}}{{% endautoescape %}}{{% endautoescape %}}{{% endautoescape %}}",
       "&amp;&&amp;",
       "variable" => "&"
     )
@@ -103,7 +103,7 @@ describe "{% autoescape %}" do
 
   it "supports reading the auto-escaping state from a variable" do
     verify_template_output(
-      "{% autoescape escape %}{{ variable }}{% endautoescape %}",
+      "{{% autoescape escape %}}{{{ variable }}}{{% endautoescape %}}",
       "&amp;",
       "escape" => true,
       "variable" => "&"
@@ -111,39 +111,39 @@ describe "{% autoescape %}" do
   end
 
   it "raises an error when called with multiple arguments" do
-    invalid = "{% autoescape one two %}{% endautoescape %}"
-    expect { Liquid::Template.parse(invalid) }.to raise_error(Liquid::SyntaxError)
+    invalid = "{{% autoescape one two %}}{{% endautoescape %}}"
+    expect { Solid::Template.parse(invalid) }.to raise_error(Solid::SyntaxError)
   end
 
   it "does not escape captured variables" do
     verify_template_output(
-      "{% autoescape %}{% capture variable %}&{% endcapture %}{% endautoescape %}{{ variable }}",
+      "{{% autoescape %}}{{% capture variable %}}&{{% endcapture %}}{{% endautoescape %}}{{{ variable }}}",
       "&"
     )
   end
 
   it "can prevent escaping of assigned variables" do
     verify_template_output(
-      '{% autoescape %}{% autoescape false %}{% assign variable = "&" %}{% endautoescape %}{{ variable }}{% endautoescape %}{{ variable }}',
+      '{{% autoescape %}}{{% autoescape false %}}{{% assign variable = "&" %}}{{% endautoescape %}}{{{ variable }}}{{% endautoescape %}}{{{ variable }}}',
       "&amp;&"
     )
   end
 
   describe "configuration options" do
 
-    after(:each) { Liquid::Autoescape.reconfigure }
+    after(:each) { Solid::Autoescape.reconfigure }
 
     context "with global mode enabled" do
 
       before(:each) do
-        Liquid::Autoescape.configure do |config|
+        Solid::Autoescape.configure do |config|
           config.global = true
         end
       end
 
       it "escapes variables outside of an autoescape block" do
         verify_template_output(
-          "{{ variable }}",
+          "{{{ variable }}}",
           "&amp;",
           "variable" => "&"
         )
@@ -151,7 +151,7 @@ describe "{% autoescape %}" do
 
       it "escapes variables in an autoescape block" do
         verify_template_output(
-          "{% autoescape %}{{ variable }}{% endautoescape %}",
+          "{{% autoescape %}}{{{ variable }}}{{% endautoescape %}}",
           "&amp;",
           "variable" => "&"
         )
@@ -159,7 +159,7 @@ describe "{% autoescape %}" do
 
       it "respects escaping filters" do
         verify_template_output(
-          "{{ variable | skip_escape }}{% autoescape %}{{ variable | skip_escape }}{% endautoescape %}",
+          "{{{ variable | skip_escape }}}{{% autoescape %}}{{{ variable | skip_escape }}}{{% endautoescape %}}",
           "&&",
           "variable" => "&"
         )
@@ -167,7 +167,7 @@ describe "{% autoescape %}" do
 
       it "supports opting out of auto-escaping within a block" do
         verify_template_output(
-          "{{ variable }}{% autoescape false %}{{ variable }}{{ variable }}{% endautoescape %}",
+          "{{{ variable }}}{{% autoescape false %}}{{{ variable }}}{{{ variable }}}{{% endautoescape %}}",
           "&amp;&&",
           "variable" => "&"
         )
@@ -186,7 +186,7 @@ describe "{% autoescape %}" do
       end
 
       before(:each) do
-        Liquid::Autoescape.configure do |config|
+        Solid::Autoescape.configure do |config|
           config.exemptions.add { |variable| variable.name == "filter" }
           config.exemptions.import(exemptions)
         end
@@ -194,20 +194,20 @@ describe "{% autoescape %}" do
 
       it "does not escape exempt variables" do
         verify_template_output(
-          "{% autoescape %}{{ filter }} {{ module }} {{ other }}{% endautoescape %}",
+          "{{% autoescape %}}{{{ filter }}} {{{ module }}} {{{ other }}}{{% endautoescape %}}",
           "<a> <b> &lt;i&gt;",
           "filter" => "<a>", "module" => "<b>", "other" => "<i>"
         )
       end
 
       it "can handle exemptions with lookup-style variable names" do
-        Liquid::Autoescape.configure do |config|
+        Solid::Autoescape.configure do |config|
           config.exemptions.add { |variable| variable.name == "root.one" }
           config.exemptions.add { |variable| variable.name == "trunk.branch.leaf" }
         end
 
         verify_template_output(
-          "{% autoescape %}{{ root.one }} {{ root.two }} {{ trunk.branch.leaf }}{% endautoescape %}",
+          "{{% autoescape %}}{{{ root.one }}} {{{ root.two }}} {{{ trunk.branch.leaf }}}{{% endautoescape %}}",
           "<a> &lt;b&gt; <i>",
           "root" => {"one" => "<a>", "two" => "<b>"},
           "trunk" => {"branch" => {"leaf" => "<i>"}}
@@ -216,7 +216,7 @@ describe "{% autoescape %}" do
 
       it "respects the default exemptions" do
         verify_template_output(
-          "{% autoescape %}{{ filter | skip_escape }} {{ other }}{% endautoescape %}",
+          "{{% autoescape %}}{{{ filter | skip_escape }}} {{{ other }}}{{% endautoescape %}}",
           "<a> &lt;b&gt;",
           "filter" => "<a>", "other" => "<b>"
         )
@@ -227,14 +227,14 @@ describe "{% autoescape %}" do
     context "with trusted filters" do
 
       before(:each) do
-        Liquid::Autoescape.configure do |config|
+        Solid::Autoescape.configure do |config|
           config.trusted_filters << :downcase
         end
       end
 
       it "does not forget the default escaping filters" do
         verify_template_output(
-          "{% autoescape %}{{ one | skip_escape }} {{ two | escape }}{% endautoescape %}",
+          "{{% autoescape %}}{{{ one | skip_escape }}} {{{ two | escape }}}{{% endautoescape %}}",
           "<a> &lt;b&gt;",
           "one" => "<a>", "two" => "<b>"
         )
@@ -242,7 +242,7 @@ describe "{% autoescape %}" do
 
       it "exempts variables that use one of the trusted filters" do
         verify_template_output(
-          "{% autoescape %}{{ variable | downcase }} {{ variable | capitalize }}{% endautoescape %}",
+          "{{% autoescape %}}{{{ variable | downcase }}} {{{ variable | capitalize }}}{{% endautoescape %}}",
           "r&d R&amp;d",
           "variable" => "R&D"
         )

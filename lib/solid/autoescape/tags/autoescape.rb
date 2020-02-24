@@ -1,7 +1,7 @@
-require "liquid"
-require "liquid/autoescape/liquid_ext/variable"
+require "solid"
+require "solid/autoescape/solid_ext/variable"
 
-module Liquid
+module Solid
   module Autoescape
     module Tags
 

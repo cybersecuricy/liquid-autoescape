@@ -1,7 +1,7 @@
-require "liquid"
-require "liquid/autoescape/template_variable"
+require "solid"
+require "solid/autoescape/template_variable"
 
-module Liquid
+module Solid
   module Autoescape
     describe TemplateVariable do
 
@@ -25,27 +25,27 @@ module Liquid
         expect(data.filters).to match_array([:downcase])
       end
 
-      describe ".from_liquid_variable" do
+      describe ".from_solid_variable" do
 
-        let(:liquid_variable) do
+        let(:solid_variable) do
           args = [variable_name]
 
-          if defined?(Liquid::ParseContext)
-            args << Liquid::ParseContext.new
+          if defined?(Solid::ParseContext)
+            args << Solid::ParseContext.new
           end
 
-          Liquid::Variable.new(*args)
+          Solid::Variable.new(*args)
         end
 
         let(:variable_name) { nil }
 
-        let(:wrapper) { TemplateVariable.from_liquid_variable(liquid_variable) }
+        let(:wrapper) { TemplateVariable.from_solid_variable(solid_variable) }
 
-        context "with an unfiltered Liquid variable" do
-          let(:variable_name) { "from_liquid" }
+        context "with an unfiltered Solid variable" do
+          let(:variable_name) { "from_solid" }
 
           it "resolves the variable name" do
-            expect(wrapper.name).to eq("from_liquid")
+            expect(wrapper.name).to eq("from_solid")
           end
 
           it "has an empty list of filters" do
@@ -53,11 +53,11 @@ module Liquid
           end
         end
 
-        context "with a filtered Liquid variable" do
-          let(:variable_name) { "from_liquid | downcase | capitalize" }
+        context "with a filtered Solid variable" do
+          let(:variable_name) { "from_solid | downcase | capitalize" }
 
           it "resolves the variable name" do
-            expect(wrapper.name).to eq("from_liquid")
+            expect(wrapper.name).to eq("from_solid")
           end
 
           it "exposes a list of filters" do
@@ -66,7 +66,7 @@ module Liquid
 
         end
 
-        context "with a lookup-style Liquid variable" do
+        context "with a lookup-style Solid variable" do
           let(:variable_name) { "hash.key" }
 
           it "exposes the full variable name" do
@@ -74,7 +74,7 @@ module Liquid
           end
         end
 
-        context "with a deep lookup-style Liquid variable" do
+        context "with a deep lookup-style Solid variable" do
           let(:variable_name) { "trunk.branch.leaf" }
 
           it "exposes the full variable name" do

@@ -1,7 +1,7 @@
-require "liquid/autoescape"
-require "liquid/autoescape/configuration"
+require "solid/autoescape"
+require "solid/autoescape/configuration"
 
-module Liquid
+module Solid
   describe Autoescape do
 
     after(:each) { Autoescape.reconfigure }

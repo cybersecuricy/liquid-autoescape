@@ -1,8 +1,8 @@
-require "liquid/autoescape"
-require "liquid/autoescape/core_exemptions"
-require "liquid/autoescape/template_variable"
+require "solid/autoescape"
+require "solid/autoescape/core_exemptions"
+require "solid/autoescape/template_variable"
 
-module Liquid
+module Solid
   module Autoescape
     describe CoreExemptions do
 

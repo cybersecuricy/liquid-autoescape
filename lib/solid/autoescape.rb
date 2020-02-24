@@ -1,18 +1,18 @@
-require "liquid/autoescape/configuration"
-require "liquid/autoescape/filters"
-require "liquid/autoescape/tags/autoescape"
+require "solid/autoescape/configuration"
+require "solid/autoescape/filters"
+require "solid/autoescape/tags/autoescape"
 
-module Liquid
+module Solid
   module Autoescape
 
     # The context variable that stores the auto-escape state
     #
     # @private
-    ENABLED_FLAG = "liquid_autoescape_enabled".freeze
+    ENABLED_FLAG = "solid_autoescape_enabled".freeze
 
-    # Configure Liquid auto-escaping
+    # Configure Solid auto-escaping
     #
-    # @yieldparam [Liquid::Autoescape::Configuration] config The auto-escape configuration
+    # @yieldparam [Solid::Autoescape::Configuration] config The auto-escape configuration
     def self.configure
       yield(configuration)
     end
@@ -24,7 +24,7 @@ module Liquid
 
     # The current auto-escape configuration
     #
-    # @return [Liquid::Autoescape::Configuration]
+    # @return [Solid::Autoescape::Configuration]
     def self.configuration
       @configuration ||= Configuration.new
     end

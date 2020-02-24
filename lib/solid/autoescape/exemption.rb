@@ -1,9 +1,9 @@
-require "liquid/autoescape/errors"
+require "solid/autoescape/errors"
 
-module Liquid
+module Solid
   module Autoescape
 
-    # An exemption that may apply to a Liquid template variable
+    # An exemption that may apply to a Solid template variable
     #
     # Exemptions are created from functions that accept a template variable and
     # and return a boolean value indicating whether or not the variable is
@@ -27,15 +27,15 @@ module Liquid
       # indicating whether the exemption applies to the variable.
       #
       # @param [Proc] filter A filter function to use for calculating the exemption
-      # @raise [Liquid::Autoescape::ExemptionError] if a filter function is not provided
+      # @raise [Solid::Autoescape::ExemptionError] if a filter function is not provided
       def initialize(&filter)
         raise ExemptionError, "You must provide an exemption with a block that determines if an exemption applies" unless block_given?
         @filter = filter
       end
 
-      # Determine whether the exemption applies to a Liquid variable
+      # Determine whether the exemption applies to a Solid variable
       #
-      # @param [Liquid::Autoescape::TemplateVariable] variable A Liquid variable used in a template
+      # @param [Solid::Autoescape::TemplateVariable] variable A Solid variable used in a template
       # @return [Boolean] Whether the exemption applies to the variable
       def applies?(variable)
         @filter.call(variable)

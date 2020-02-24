@@ -1,4 +1,4 @@
-module Liquid
+module Solid
   module Autoescape
 
     # The base error from which all other auto-escape errors inherit

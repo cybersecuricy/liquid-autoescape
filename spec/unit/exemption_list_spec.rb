@@ -1,7 +1,7 @@
-require "liquid/autoescape/exemption_list"
-require "liquid/autoescape/template_variable"
+require "solid/autoescape/exemption_list"
+require "solid/autoescape/template_variable"
 
-module Liquid
+module Solid
   module Autoescape
     describe ExemptionList do
 

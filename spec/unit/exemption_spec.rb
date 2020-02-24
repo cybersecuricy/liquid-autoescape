@@ -1,8 +1,8 @@
-require "liquid/autoescape/errors"
-require "liquid/autoescape/exemption"
-require "liquid/autoescape/template_variable"
+require "solid/autoescape/errors"
+require "solid/autoescape/exemption"
+require "solid/autoescape/template_variable"
 
-module Liquid
+module Solid
   module Autoescape
     describe Exemption do
 

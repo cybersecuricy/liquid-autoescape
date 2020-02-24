@@ -1,7 +1,7 @@
-require "liquid/autoescape"
-require "liquid/autoescape/exemption"
+require "solid/autoescape"
+require "solid/autoescape/exemption"
 
-module Liquid
+module Solid
   module Autoescape
 
     # A list of exemptions that may apply to template variables
@@ -37,7 +37,7 @@ module Liquid
       # Create an exemption list from a module's instance methods
       #
       # @param [Module] source The module providing exemptions as methods
-      # @return [Liquid::Autoescape::ExemptionList]
+      # @return [Solid::Autoescape::ExemptionList]
       def self.from_module(source)
         exemptions = new
         exemptions.import(source)
@@ -52,7 +52,7 @@ module Liquid
       # Add a single filter function to use as an exemption
       #
       # @param [Proc] filter A filter function to use as an exemption
-      # @return [Liquid::Autoescape::ExemptionList] The updated exemption list
+      # @return [Solid::Autoescape::ExemptionList] The updated exemption list
       def add(&filter)
         @exemptions << Exemption.new(&filter)
         self
@@ -61,7 +61,7 @@ module Liquid
       # Add all instance methods of a module as exemptions
       #
       # @param [Module] source The module providing exemptions as methods
-      # @return [Liquid::Autoescape::ExemptionList] The updated exemption list
+      # @return [Solid::Autoescape::ExemptionList] The updated exemption list
       def import(source)
         container = Module.new { extend source }
         exemptions = source.instance_methods(false)
@@ -71,9 +71,9 @@ module Liquid
         self
       end
 
-      # Determine whether any of the exemptions apply to a Liquid variable
+      # Determine whether any of the exemptions apply to a Solid variable
       #
-      # @param [Liquid::Autoescape::TemplateVariable] variable A Liquid variable used in a template
+      # @param [Solid::Autoescape::TemplateVariable] variable A Solid variable used in a template
       # @return [Boolean] Whether any of the exemptions apply to the variable
       def applies?(variable)
         @exemptions.each do |exemption|

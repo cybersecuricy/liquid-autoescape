@@ -1,13 +1,13 @@
-require "liquid/autoescape/core_exemptions"
-require "liquid/autoescape/exemption_list"
+require "solid/autoescape/core_exemptions"
+require "solid/autoescape/exemption_list"
 
-module Liquid
+module Solid
   module Autoescape
 
     # A configuration file for setting auto-escape options
     class Configuration
 
-      # @return [Liquid::Autoescape::ExemptionList] The list of custom exemptions
+      # @return [Solid::Autoescape::ExemptionList] The list of custom exemptions
       attr_reader :exemptions
 
       # @return [Boolean] Whether global mode is enabled

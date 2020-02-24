@@ -1,6 +1,6 @@
-require "liquid/autoescape/configuration"
+require "solid/autoescape/configuration"
 
-module Liquid
+module Solid
   module Autoescape
     describe Configuration do
 

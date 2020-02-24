@@ -1,9 +1,9 @@
-require "liquid"
+require "solid"
 
-module Liquid
+module Solid
   module Autoescape
 
-    # Liquid filters used to support the {% autoescape %} tag
+    # Solid filters used to support the {% autoescape %} tag
     module Filters
 
       # Flag an input as exempt from auto-escaping
